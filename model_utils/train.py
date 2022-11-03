@@ -34,12 +34,14 @@ class InstanceTrainer():
             p, x_gen = self.model(x)
 
             # compute loss 
-            loss = self.loss_func(x, p)
+            loss = self.loss_func(p + 1e-10 , x)
+
+            loss.backward()
 
             # compute gradient and take a step towards objective
             self.optimizer.step()
            
-            print("loss: ", loss)
-            train_loss.append(loss)
+            print("loss: ", loss.item())
+            train_loss.append(loss.item())
         
         return train_loss    
